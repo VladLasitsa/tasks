@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Playground</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="jquery-2.2.3.min.js"></script>
+    <script src="optional.js"></script>
+    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/3.0.2/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-komplex.css">
+</head>
+<body>
+    <aside>
+        <p>Add your own tab</p>
+        <a href="#" class="collapse" title="collapse">&#8656;</a>
+        <form class="form-tab" name="newTab">
+            <div class="input-group">
+                <label  for="text">Index</label>
+                <input class="required-field" type="text" id="text">
+            </div>
+            <div class="input-group">
+                <label for="title">Title</label>
+                <input class="required-field" type="text" id="title">
+            </div>
+            <div class="input-group">
+                <label for="html">HTML content</label>
+                <textarea class="required-field" id="html"></textarea>
+            </div>
+            <button class="add-button">ADD</button>
+            <button class="edit-button">EDIT</button>
+            <button class="reset-button">RESET</button>
+        </form>
+    </aside>
+    <main>
+        <ul class="tabs">
+            <li class="tab">One</li>
+            <li class="tab">Two</li>
+            <li class="tab">Three</li>
+            <li class="tab">Four</li>
+        </ul>
+        <div class="container" id="container-content-tab">
+        </div>
+    </main>
+    <script>
+        $('input[type=button]').on('click', function(){
+            console.log('lol');
+            $('<a href="#" class="lol">LOL</a>').appendTo('.container');
+        });
+        $('body').on('click', '.lol', function(){
+            window.location.href='epam.by';
+        });
+    </script>
+</body>
+</html>

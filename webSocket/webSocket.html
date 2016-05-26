@@ -1,0 +1,73 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script>
+		var socket = new WebSocket("ws://198.199.125.240");
+		socket.binaryType = "arraybuffer";
+		var auth;
+		var bits;
+
+		socket.onopen = function() {
+			var name = {msg : "challenge_accepted" , name: "VladLasitsa"};
+			socket.send(JSON.stringify(name));
+		}
+
+		socket.onmessage = function(event) {
+			if(typeof event.data === 'string') {
+				var message = JSON.parse(event.data);
+
+			 switch(message.msg){
+			 	case "auth" :
+			 		auth = message.auth_token; 
+			 		var task1 = { msg: "task_one", auth_token: auth};
+			 		socket.send(JSON.stringify(task1));
+			 		break;
+			 	case "compute" :
+			 		var result1;
+			 		switch(message.operator){
+			 			case "+" :
+			 			result1 = message.operands[0] + message.operands[1];
+			 			break;
+			 			case "-" :
+			 			result1 = message.operands[0] - message.operands[1];
+			 			break;
+			 			case "*" :
+			 			result1 = message.operands[0] * message.operands[1];
+			 			break;
+			 		}
+			 		var task1result =  {msg: "task_one_result", result: result1, auth_token: auth};
+			 		socket.send(JSON.stringify(task1result));
+			 		break;
+			 	case "win" : 
+			 		var forTask2 = {msg : "next" ,  auth_token: auth};
+			 		socket.send(JSON.stringify(forTask2));
+			 		break;
+			 	case "binary_sum" :
+			 		bits = message.bits;
+			 		break;
+			 	}
+			}
+			else {
+				var view;
+				if(bits == 8){
+					view = new Uint8Array(event.data);
+				}
+				else {
+					view = new Uint16Array(event.data);
+				}
+				var result1 = view.reduce(function(sum, current) {
+  						return sum + current;
+					}, 0);
+				var task2result = {msg : "task_two_result" , result: result1, auth_token: auth};
+			 		socket.send(JSON.stringify(task2result));
+			} 
+
+
+		}
+
+	</script>
+
+</body>
+</html>
